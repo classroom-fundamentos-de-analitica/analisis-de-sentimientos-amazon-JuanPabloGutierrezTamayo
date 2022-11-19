@@ -30,7 +30,7 @@ def pregunta_01():
 
     # Separe los grupos de mensajes etiquetados y no etiquetados.
     df_tagged = df[df["lbl"].notnull()]
-    df_untagged = df[df["lbl"].notnull()]
+    df_untagged = df[df["lbl"].isnull()]
 
     x_tagged = df_tagged["msg"]
     y_tagged = df_tagged["lbl"]
@@ -124,10 +124,10 @@ def pregunta_04():
     )
 
     # Cree un pipeline que contenga el CountVectorizer y el modelo de BernoulliNB.
-    pipeline = ____(
+    pipeline = Pipeline(
         steps=[
-            ("____", ____),
-            ("____", ____()),
+            ("CountVectorizer", countVectorizer),
+            ("BernoulliNB", BernoulliNB()),
         ],
     )
 
@@ -135,18 +135,18 @@ def pregunta_04():
     # considerar 10 valores entre 0.1 y 1.0 para el parámetro alpha de
     # BernoulliNB.
     param_grid = {
-        "____": np.____(____, ____, ____),
+        "BernoulliNB__alpha": np.linspace(0.1, 1, 10),
     }
 
     # Defina una instancia de GridSearchCV con el pipeline y el diccionario de
     # parámetros. Use cv = 5, y "accuracy" como métrica de evaluación
-    gridSearchCV = ____(
-        estimator=____,
-        param_grid=____,
-        cv=____,
-        scoring=____,
-        refit=____,
-        return_train_score=____,
+    gridSearchCV = GridSearchCV(
+        estimator=pipeline,
+        param_grid=param_grid,
+        cv=5,
+        scoring="accuracy",
+        refit=True,
+        return_train_score=False,
     )
 
     # Búsque la mejor combinación de regresores
